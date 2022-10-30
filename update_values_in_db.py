@@ -4,6 +4,7 @@ from mysql.connector import connect, Error
 HOST = "localhost"
 DATABASE = "tom"
 TABLE = "modx_ms2_product_options"
+KEY = "class"
 USER = "admin"
 PASSWORD = ""
 
@@ -24,38 +25,18 @@ def connect_to_db(query_func):
     return connection_func
 
 @connect_to_db
-def update_values_with_key(cursor, key, current_value, result_value)
-    update_query = """
+def update_values_with_key(cursor, key, current_value, result_value):
+    update_query = f"""
     UPDATE
-        "%s"
+        `{TABLE}`
     SET
-        value = "%s"
+        `value` = "{result_value}"
     WHERE
-        key = "%s" AND value = "%s"
-    """ % (
-        TABLE,
-        result_value,
-        key,
-        current_value,
-    )
+        `key` = "{key}" AND `value` = "{current_value}"
+    """
     cursor.execute(update_query, multi=True)
 
-@connect_to_db
-def print_table_with_key(cursor, key):
-    select_query = """
-    SELECT *
-    FROM "%s"
-    WHERE
-        key = "%s"
-    """ % (
-        TABLE,
-        key,
-    )
-    for result in cursor.execute(select_query, multi=True):
-        if result.with_rows:
-            print(result.fetchall())
-
-if __name__ = __main__:
+if __name__ == "__main__":
     values = [("Начальный", "Начальный класс"),
               ("Средний", "Средний класс"),
               ("Высокий", "Высокий класс"),
@@ -63,6 +44,6 @@ if __name__ = __main__:
               ("Премиальный", "Премиальный класс")]
     for current_value, result_value in values:
         update_values_with_key(KEY, current_value, result_value)
-    print_table_with_key(KEY)
+
 
 
